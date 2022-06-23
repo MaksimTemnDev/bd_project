@@ -260,6 +260,67 @@ def inserting_table(inp, man_id):
                 print(e)
                 print(" ")
         
+def table_drop(inp):
+    if inp == "1":
+        print(" ")
+        print("Введите значение для удаляемой записи(name):")
+        name = input()
+        try:
+                set_update = "delete from origin.client where name = '%s';"%(name)
+                cursor.execute(set_update)
+                connect.commit()
+        except Exception  as e:
+                print("Ваш запрос синтаксически не правильный")
+                print(e)
+                print(" ")
+    elif inp == '2':
+        print(" ")
+        print("Введите значение для удаляемой записи(name):")
+        name = input()
+        try:
+                set_update = "delete from origin.manager where name = '%s';"%(name)
+                cursor.execute(set_update)
+                connect.commit()
+        except Exception  as e:
+                print("Ваш запрос синтаксически не правильный")
+                print(e)
+                print(" ")
+
+def show_manager_cars(inp):
+    try:
+        set_update = "select brand.denomination, model.denomination from manager left join deal on manager.managerId = deal.managerId left join auto on deal.dealId = auto.autoId left join equipment on auto.unicueNumber = equipment.id left join model on equipment.modelId = model.modelId left join brand on model.brandId = brand.brandId where manager.name = '%s';"%(inp)
+        cursor.execute(set_update)
+        rows = cursor.fetchall()
+        i = 1;
+        print(" ")
+        print("List of cars")
+        print('#'*25)
+        for row in rows:
+            print(row["denomination"], row["model.denomination"])
+            i+=1
+        print('#'*25)
+        print(" ")
+    except Exception  as e:
+        print("Ваш запрос синтаксически не правильный")
+        print(e)
+        print(" ")
+
+def show_models(mark):
+    try:
+        set_show = "select model.denomination from model right join brand on model.brandId=brand.brandId where brand.denomination='%s';"%mark
+        cursor.execute(set_show)
+        rows = cursor.fetchall()
+        print(" ")
+        print("List of models")
+        print('#'*25)
+        for row in rows:
+            print(row["denomination"])
+        print('#'*25)
+        print(" ")
+    except Exception  as e:
+        print("Ваш запрос синтаксически не правильный")
+        print(e)
+        print(" ")
 
 play = 1
 man_id = 11
